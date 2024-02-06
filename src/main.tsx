@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     element: <SignUpPage />,
   },
   {
-    path: '/',
+    path: '/todo',
     element: <TodoPage />,
   },
 ]);
