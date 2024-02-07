@@ -13,7 +13,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { AuthContextType } from '../types/AuthContext';
+import { AuthContextType } from '../types/Auth';
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
