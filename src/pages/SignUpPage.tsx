@@ -9,7 +9,7 @@ interface IFormInput {
 
 export default function SignUpPage() {
   const auth = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const {
     register,
@@ -19,11 +19,9 @@ export default function SignUpPage() {
 
   async function onSubmit(data: IFormInput) {
     const authenticated = await auth?.signUp(data.email, data.password);
-    if(authenticated) {
-      navigate('/todo')
-    }else {
-      console.log('error');
-      
+
+    if (authenticated) {
+      navigate("/signin");
     }
   }
 
