@@ -1,3 +1,11 @@
+import Header from "../components/Header";
+import Todo from "../components/Todo";
+
 export default function TodoPage() {
-  return <div>TodoPage</div>;
+  return (
+    <div>
+      <Header />
+      <Todo />
+    </div>
+  );
 }
