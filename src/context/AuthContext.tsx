@@ -1,29 +1,40 @@
-import { ReactNode, createContext, useEffect, useState } from 'react';
-import { auth } from '../../firebase';
+import { ReactNode, createContext, useEffect, useState } from "react";
+import { auth } from "../../firebase";
 import {
   User,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
-} from 'firebase/auth';
-import { AuthContextType } from '../types/Auth';
+} from "firebase/auth";
+import { AuthContextType } from "../types/Auth";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  function signUp(email: string, password: string) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  async function signUp(email: string, password: string) {
+    return createUserWithEmailAndPassword(auth, email, password).catch(
+      (error) => {
+        console.error("Erro ao criar conta:", error);
+        throw error;
+      }
+    );
   }
 
-  function login(email: string, password: string) {
-    return signInWithEmailAndPassword(auth, email, password);
+  async function login(email: string, password: string) {
+    return signInWithEmailAndPassword(auth, email, password).catch((error) => {
+      console.error("Erro ao fazer login:", error);
+      throw error;
+    });
   }
 
-  function logout() {
-    return signOut(auth);
+  async function logout() {
+    return signOut(auth).catch((error) => {
+      console.error("Erro ao fazer logout:", error);
+      throw error;
+    });
   }
 
   useEffect(() => {
