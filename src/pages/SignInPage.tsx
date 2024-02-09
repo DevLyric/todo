@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface IFormInput {
   email: string;
@@ -6,14 +8,21 @@ interface IFormInput {
 }
 
 export default function SignInPage() {
+  const auth = useAuth();
+  const navigate = useNavigate();
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<IFormInput>();
 
-  function onSubmit(data: IFormInput) {
-    console.log(data);
+  async function onSubmit(data: IFormInput) {
+    const authenticated = await auth?.login(data.email, data.password);
+
+    if (authenticated) {
+      navigate("/todo");
+    }
   }
 
   return (
