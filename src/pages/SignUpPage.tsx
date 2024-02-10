@@ -1,23 +1,13 @@
-import { useForm } from "react-hook-form";
-import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-
-interface IFormInput {
-  email: string;
-  password: string;
-}
+import { useAuth } from "../hooks/useAuth";
+import Form from "../components/Form";
+import { IFormValues } from "../types/FormValues";
 
 export default function SignUpPage() {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<IFormInput>();
-
-  async function onSubmit(data: IFormInput) {
+  async function onSubmit(data: IFormValues) {
     const authenticated = await auth?.signUp(data.email, data.password);
 
     if (authenticated) {
@@ -35,51 +25,7 @@ export default function SignUpPage() {
           Become a member and enjoy the app.
         </p>
 
-        <form
-          className="mt-3 flex flex-col gap-6"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div className="flex flex-col">
-            {errors.email && (
-              <p role="alert" className="text-red-500">
-                {errors.email.message}
-              </p>
-            )}
-            <input
-              type="email"
-              className="rounded border p-3"
-              {...register("email", { required: "Email Address is required" })}
-              aria-invalid={errors.email ? "true" : "false"}
-              placeholder="Email address"
-              autoComplete="off"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            {errors.password && (
-              <p role="alert" className="text-red-500">
-                {errors.password.message}
-              </p>
-            )}
-            <input
-              type="password"
-              className="rounded border p-3"
-              {...register("password", {
-                required: "Password is required",
-              })}
-              aria-invalid={errors.password ? "true" : "false"}
-              placeholder="Password"
-              autoComplete="off"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="rounded py-3 px-4 bg-blue-500 text-white font-medium outline-none"
-          >
-            Register
-          </button>
-        </form>
+        <Form onSubmit={onSubmit} buttonText="Register" />
       </div>
     </div>
   );
